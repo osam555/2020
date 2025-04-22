@@ -507,7 +507,7 @@ def create_settings_ui(return_to_learning=False):
             try:
                 # 엑셀 파일 전체 읽기
                 excel_file = pd.ExcelFile(EXCEL_PATH)
-                sheet_names = excel_file.sheet_names[:6]  # 처음 3개의 시트만 사용
+                sheet_names = excel_file.sheet_names[:6]  # 처음 6개의 시트만 사용
                 
                 # 시트 선택 (기본값: 첫 번째 시트)
                 selected_sheet = st.selectbox(
@@ -518,17 +518,29 @@ def create_settings_ui(return_to_learning=False):
                     label_visibility="visible"
                 )
                 
-                # 선택된 시트 데이터 읽기 - header=0으로 변경하여 첫 행을 헤더로 사용
+                # 선택된 시트 데이터 읽기
                 df = pd.read_excel(
                     EXCEL_PATH,
                     sheet_name=selected_sheet,
-                    header=0,  # 첫 행을 헤더로 사용
+                    header=0,
                     engine='openpyxl'
                 )
                 max_row = len(df)
                 
                 # 선택된 시트 정보를 설정에 저장
                 settings['selected_sheet'] = selected_sheet
+                
+                # 4번째 시트부터는 5개 언어만 있음을 처리
+                sheet_index = sheet_names.index(selected_sheet)
+                if sheet_index >= 3:  # 0-based index이므로 3부터가 4번째 시트
+                    # 5개 언어만 사용 가능하도록 제한
+                    supported_languages = ['korean', 'english', 'chinese', 'japanese', 'vietnamese']
+                    # 현재 선택된 언어들이 지원되는지 확인하고 필요시 조정
+                    for rank in ['first', 'second', 'third']:
+                        lang_key = f'{rank}_lang'
+                        if settings[lang_key] not in supported_languages and settings[lang_key] != 'none':
+                            settings[lang_key] = 'english'  # 기본값으로 영어 설정
+                            st.warning(f"4번째 시트부터는 한국어, 영어, 중국어, 일본어, 베트남어만 지원됩니다. {rank} 언어가 영어로 재설정되었습니다.")
                 
             except Exception as e:
                 st.error(f"엑셀 파일 읽기 오류: {e}")
