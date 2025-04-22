@@ -9,3 +9,4 @@ pydub==0.25.1
 openpyxl
 librosa
 numpy
+psutil
