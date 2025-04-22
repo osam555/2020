@@ -1223,10 +1223,15 @@ async def start_learning():
             'japanese': 'ja-일본',
             'vietnamese': 'vi-베트남',
             'thai': 'th-태국',
+            'filipino': 'tl-필리핀',
             'russian': 'ru-러시아',
             'uzbek': 'uz-우즈벡',
+            'mongolian': 'mn-몽골',
+            'nepali': 'ne-네팔',
+            'burmese': 'my-미얀마',
             'indonesian': 'id-인니',
-            'hindi': 'hi-인도'  # 히브리어(인도) 추가
+            'khmer': 'km-캄보디아',
+            'hindi': 'hi-인도'
         }
 
         # 언어별 데이터 저장
