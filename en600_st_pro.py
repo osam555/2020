@@ -507,7 +507,7 @@ def create_settings_ui(return_to_learning=False):
             try:
                 # 엑셀 파일 전체 읽기
                 excel_file = pd.ExcelFile(EXCEL_PATH)
-                sheet_names = excel_file.sheet_names[:3]  # 처음 3개의 시트만 사용
+                sheet_names = excel_file.sheet_names[:6]  # 처음 3개의 시트만 사용
                 
                 # 시트 선택 (기본값: 첫 번째 시트)
                 selected_sheet = st.selectbox(
